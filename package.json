@@ -1,0 +1,39 @@
+{
+  "name": "@ardinsys/event-emitter",
+  "description": "Typesafe EventEmitter implementation.",
+  "repository": "https://github.com/ardinsys/typesafe-event-emitter.git",
+  "license": "Apache 2.0",
+  "author": "ARDINSYS Zrt.",
+  "version": "0.8.1",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && tsc src/index.ts --declaration --emitDeclarationOnly --esModuleInterop --outDir dist",
+    "prepublishOnly": "npm run build",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.13",
+    "@vitest/coverage-c8": "^0.25.7",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.0",
+    "vitest": "^0.25.7"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.umd.js",
+      "require": "./dist/index.es.js"
+    }
+  },
+  "sideEffects": false
+}

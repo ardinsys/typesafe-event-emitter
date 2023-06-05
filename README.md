@@ -67,11 +67,16 @@ emitter.emit(
 );
 ```
 
-## Stop propagation
+## Event priority and stop propagation
 
-Listeners will be invoked in a reverse order, which means, that the last subscriber will be invoked first. This enables the term stop propagation to work. Meaning: if a handler says that we should stop, then the rest of the subscribers won't invoked.
+If you define a priority for an event handler like this:
 
-Return this from a handler to break the invoke loop:
+```ts
+emitter.on("eventName", (params) => console.log(params), 4);
+```
+Then this handler will be invoked before every other handler with a priority lower than 4.
+
+**Return this from a handler to break the invoke loop:**
 
 ```ts
 emitter.on("eventName", (params) => {
@@ -93,7 +98,7 @@ But keep in mind, if this stop results in other "once" listeners not being invok
 
 ## Event emitter bridge
 
-If you have some internal emitters which events need to be reemitted by an other emitter, the you can connect the two. Keep in mind, that this is a **one directional connection**.
+If you have some internal emitters which events need to be reemitted by an other emitter, then you can connect the two. Keep in mind, that this is a **one directional connection**.
 
 ```ts
 // const emitter1 = emitter instance;

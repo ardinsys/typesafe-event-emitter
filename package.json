@@ -4,7 +4,7 @@
   "repository": "https://github.com/ardinsys/typesafe-event-emitter.git",
   "license": "Apache 2.0",
   "author": "ARDINSYS Zrt.",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "files": [
     "dist",
     "README.md"

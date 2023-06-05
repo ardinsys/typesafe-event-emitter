@@ -45,24 +45,20 @@ describe("Event emitter", () => {
 
   it("shouldn't delete \"once\" listeners which weren't invoked beacuse of stop propagation", () => {
     let invokeCount = 0;
-    let stoppedInvoked = false;
 
-    eventEmitter.once("test", () => {
-      invokeCount++;
-      stoppedInvoked = true;
-    });
     eventEmitter.once("test", () => {
       invokeCount++;
       return { stopPropagation: true };
     });
+    eventEmitter.once("test", () => {
+      invokeCount++;
+    });
 
     eventEmitter.emit("test", "test message");
     expect(invokeCount).toBe(1);
-    expect(stoppedInvoked).toBe(false);
 
     eventEmitter.emit("test", "test message");
     expect(invokeCount).toBe(2);
-    expect(stoppedInvoked).toBe(true);
   });
 
   it('shouldn\'t invoke "once" listners after they are invoked once', () => {
@@ -115,25 +111,55 @@ describe("Event emitter", () => {
 
   it('shouldn\'t invoke "on" listeners which were stopped by stop propagation', () => {
     let invokeCount = 0;
-    let stoppedInvoked = false;
 
     eventEmitter.on("test", () => {
       invokeCount++;
-      stoppedInvoked = true;
-    });
-    const unsub = eventEmitter.on("test", () => {
-      invokeCount++;
       return { stopPropagation: true };
+    });
+    eventEmitter.on("test", () => {
+      invokeCount++;
     });
 
     eventEmitter.emit("test", "test message");
     expect(invokeCount).toBe(1);
-    expect(stoppedInvoked).toBe(false);
-
-    unsub();
 
     eventEmitter.emit("test", "test message");
     expect(invokeCount).toBe(2);
-    expect(stoppedInvoked).toBe(true);
+  });
+
+  it('should respect the priority of "on" listeners', () => {
+    const invokeOrder: number[] = [];
+
+    eventEmitter.on(
+      "test",
+      () => {
+        invokeOrder.push(4);
+      },
+      4
+    );
+    eventEmitter.on(
+      "test",
+      () => {
+        invokeOrder.push(3);
+      },
+      3
+    );
+    eventEmitter.on(
+      "test",
+      () => {
+        invokeOrder.push(3);
+      },
+      3
+    );
+    eventEmitter.on(
+      "test",
+      () => {
+        invokeOrder.push(2);
+      },
+      2
+    );
+
+    eventEmitter.emit("test", "test message");
+    expect(invokeOrder).toStrictEqual([4, 3, 3, 2]);
   });
 });

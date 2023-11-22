@@ -1,4 +1,4 @@
-# TypeSafe frontend Event emitter
+# TypeSafe Event emitter
 
 ## To create an emitter
 
@@ -74,6 +74,7 @@ If you define a priority for an event handler like this:
 ```ts
 emitter.on("eventName", (params) => console.log(params), 4);
 ```
+
 Then this handler will be invoked before every other handler with a priority lower than 4.
 
 **Return this from a handler to break the invoke loop:**

@@ -4,12 +4,12 @@
   "repository": "https://github.com/ardinsys/typesafe-event-emitter.git",
   "license": "Apache 2.0",
   "author": "ARDINSYS Zrt.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "files": [
     "dist",
     "README.md"
   ],
-  "main": "./dist/index.umd.js",
+  "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -31,8 +31,14 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.umd.js",
-      "require": "./dist/index.es.js"
+      "import": {
+        "default": "./dist/index.es.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/index.cjs.js",
+        "types": "./dist/index.d.ts"
+      }
     }
   },
   "sideEffects": false
